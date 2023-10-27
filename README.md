@@ -8,3 +8,6 @@ The project is created for fulfilling the conditions mentioned in OutScal C++/DS
 
 - Event Handling & Inventory Base : October, 26th, 2023 [2051 HRS]
   ![event handlinng](Screenshots/1.png)
+
+- ItemConfig & Random Item Spawning : October, 27th 2023 [1229 HRS]
+  ![config and item spawning](Screenshots/2.png)
