@@ -54,10 +54,9 @@ class EventHandler {
          * parent event.
          *
          * @param pos Click positiion.
-         * @param left_click Must be true if left mouse was clicked
          * @return true if the event was handled properly, false otherwise.
          * */
-        virtual bool OnClick(const sf::Vector2i& pos, bool left_click) = 0;
+        virtual bool OnClick(const sf::Vector2i& pos) = 0;
 
         /**
          * Dispatch given event to all child event handlers.
@@ -73,10 +72,10 @@ class EventHandler {
          * @param left_click true if the click event was by left mouse button.
          * @return true if event was handled by any of the children, false otherwise
          * */
-        inline bool DispatchEventToChildren(const sf::Vector2i& pos, bool left_click) {
+        inline bool DispatchEventToChildren(const sf::Vector2i& pos) {
             /* if for any of child handler, it is clicked and event is handled, then return true */
             for(auto handler : m_handlers) {
-                if(handler->IsClicked(pos) && handler->OnClick(pos, left_click)) {
+                if(handler->IsClicked(pos) && handler->OnClick(pos)) {
                     return true;
                 }
             }

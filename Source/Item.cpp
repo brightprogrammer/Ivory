@@ -30,14 +30,19 @@ void Item::LoadItem(const ItemInfo& info) {
     const auto& lb1 = m_item.getLocalBounds();
     const auto& lb2 = m_count_display.getLocalBounds();
     m_count_display.setPosition(lb1.width - lb2.width/2.f, lb1.height - lb2.height/2.f);
+
+    m_count = 1;
 }
 
 /**
  * Draw this item to screen.
  * */
 void Item::DrawSelf(sf::RenderWindow& win) {
-    win.draw(m_item);
-    win.draw(m_count_display);
+    if(m_count) {
+        win.draw(m_item);
+        m_count_display.setString(std::to_string(m_count));
+        win.draw(m_count_display);
+    }
 }
 
 /**

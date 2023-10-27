@@ -21,8 +21,11 @@ int main() {
     sf::Image image;
     image.create(50, 50, sf::Color::White);
 
-    Container inventory(4, 6, "Inventory"); inventory.SetPosition({100, 100});
-    Container equipped(1, 8, "Equipped"); equipped.SetPosition({400, 400});
+    sf::Text bottom_menu_text;
+    bottom_menu_text.setFont(GameConfig::GetFont());
+    bottom_menu_text.setCharacterSize(GameConfig::GetTitleCharacterSize()/2);
+    bottom_menu_text.setString("Press (E - Equip) (C - Consume) (M - Move) (D - Drop)");
+    bottom_menu_text.setPosition(GameConfig::GetWallSpacing(), GameConfig::GetWindowHeight() - bottom_menu_text.getLocalBounds().height - GameConfig::GetWallSpacing());
 
     while(window.isOpen()) {
         sf::Event wevent;
@@ -33,11 +36,38 @@ int main() {
                 }
                 case sf::Event::EventType::MouseButtonPressed : {
                     sf::Vector2i pos = {wevent.mouseButton.x, wevent.mouseButton.y};
-                    bool left_click = wevent.mouseButton.button == sf::Mouse::Left;
-                    if(inventory.IsClicked(pos)) {
-                        inventory.OnClick(pos, left_click);
-                    } else if(equipped.IsClicked(pos)) {
-                        equipped.OnClick(pos, left_click);
+                    if(Game::inventory.IsClicked(pos)) {
+                        Game::inventory.OnClick(pos);
+                        Game::equipped.ResetSelection();
+                    } else if(Game::equipped.IsClicked(pos)) {
+                        Game::equipped.OnClick(pos);
+                        Game::inventory.ResetSelection();
+                    } else {
+                        Game::inventory.ResetSelection();
+                        Game::equipped.ResetSelection();
+                    }
+                }
+                case sf::Event::EventType::KeyPressed : {
+                    switch(wevent.key.code) {
+                        case sf::Keyboard::E:
+                            if(Game::inventory.IsSelected()) Game::inventory.EquipSelection();
+                            if(Game::equipped.IsSelected()) {
+                                std::cerr << "Why would you want to do something that's already done????" << std::endl;
+                            }
+                            break;
+                        case sf::Keyboard::D:
+                            if(Game::inventory.IsSelected()) Game::inventory.DropSelection();
+                            else if(Game::equipped.IsSelected()) Game::equipped.DropSelection();
+                            break;
+                        case sf::Keyboard::M:
+                            if(Game::inventory.IsSelected()) Game::inventory.MoveSelection();
+                            else if(Game::equipped.IsSelected()) Game::equipped.MoveSelection();
+                            break;
+                        case sf::Keyboard::C:
+                            if(Game::inventory.IsSelected()) Game::inventory.ConsumeSelection();
+                            else if(Game::equipped.IsSelected()) Game::equipped.ConsumeSelection();
+                            break;
+                        default: break;
                     }
                 }
                 default: break;
@@ -46,8 +76,12 @@ int main() {
 
         window.clear(IV_WINDOW_CLEAR_COLOR);
 
-        inventory.DrawSelf(window);
-        equipped.DrawSelf(window);
+        Game::inventory.DrawSelf(window);
+        Game::equipped.DrawSelf(window);
+
+        if(Game::inventory.IsSelected() || Game::equipped.IsSelected()) {
+            window.draw(bottom_menu_text);
+        }
 
         window.display();
     }

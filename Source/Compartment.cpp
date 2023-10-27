@@ -41,9 +41,15 @@ void Compartment::DrawSelf(sf::RenderWindow& win) {
  * @param left_click Whether this was a left click or not.
  * @return true
  * */
-bool Compartment::OnClick(const sf::Vector2i &pos, bool left_click) {
+bool Compartment::OnClick(const sf::Vector2i &pos) {
     /* compartments are not supposed to have children, so we won't dispatch any events */
-    std::cout << "Item was clicked!!" << std::endl;
+    m_is_selected = !m_is_selected;
+
+    if(m_is_selected) {
+        m_item_bg.setColor(sf::Color(0, 0, 0, 150));
+    } else {
+        m_item_bg.setColor(GameConfig::GetCompartmentColor());
+    }
     return true;
 }
 
