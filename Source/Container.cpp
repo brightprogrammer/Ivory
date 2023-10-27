@@ -55,6 +55,13 @@ Container::Container(size_t nrows, size_t ncols, const std::string& name) :
             AddChild(ref);
         }
     }
+
+
+    for(size_t s = 0; s < 20; s++) {
+        const ItemInfo& item = Game::item_loader.GetRandomItem();
+        std::cout << "Setting item " << item.name << " at a random place" << std::endl;
+        m_compartments[rand()*rand()%m_compartments.size()].SetItem(item);
+    }
 }
 
 /**
@@ -84,9 +91,6 @@ void Container::DrawSelf(sf::RenderWindow& win) {
 bool Container::OnClick(const sf::Vector2i& pos) {
     ResetSelection();
     if(!DispatchEventToChildren(pos)) {
-        const ItemInfo& item = Game::item_loader.GetRandomItem();
-        std::cout << "Setting item " << item.name << " at a random place" << std::endl;
-        m_compartments[rand()%m_compartments.size()].SetItem(item);
     } else {
         /* if one of children processed the event then this means atleast one of thse is selected!! */
         m_is_selected = !m_is_selected;
@@ -158,6 +162,7 @@ void Container::DropSelection() {
         auto sel = m_compartments[m_selection];
         sel.GetItem().SetQuantity(0);
         std::cout << "Item dropped! (Why are you so clumsy?)" << std::endl;
+        std::cout << "Compartment has now " << sel.GetItem().GetQuantity() << " items " << std::endl;
     }
 }
 

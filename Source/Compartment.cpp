@@ -47,6 +47,7 @@ bool Compartment::OnClick(const sf::Vector2i &pos) {
 
     if(m_is_selected) {
         m_item_bg.setColor(sf::Color(0, 0, 0, 150));
+        std::cout << "DESCRIPTION OF SELECTED ITEM : " << m_item.GetItemInfo().description << std::endl;
     } else {
         m_item_bg.setColor(GameConfig::GetCompartmentColor());
     }
