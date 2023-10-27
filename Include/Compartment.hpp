@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <Ui/Clickable.hpp>
+#include <ItemConfig.hpp>
 
 /**
  * Compartments are where our objects will be placed.
@@ -15,14 +16,15 @@ class Compartment : public Clickable {
         Compartment();
 
         void DrawSelf(sf::RenderWindow& win);
-        virtual bool OnClick(const sf::Vector2i& pos) override;
+        virtual bool OnClick(const sf::Vector2i& pos, bool left_click) override;
+        void SetItem(const ItemInfo& info);
 
         /**
          * Get current position of compartment
          *
          * @return Get position of compartment.
          * */
-        inline const sf::Vector2f& GetPosition() { return m_sprite.getPosition(); }
+        inline const sf::Vector2f& GetPosition() { return m_item_bg.getPosition(); }
 
         /**
          * Set a new position for current compartment.
@@ -33,10 +35,11 @@ class Compartment : public Clickable {
             left = pos.x;
             top = pos.y;
 
-            m_sprite.setPosition(pos);
+            m_item_bg.setPosition(pos);
         }
     private:
-        sf::Sprite m_sprite; /* All compartments have a different sprite. */
+        sf::Sprite m_item_bg; /* All compartments have a different sprite. */
+        sf::Sprite m_item;
 };
 
 #endif // IVORY_COMPARTMENT_HPP

@@ -18,10 +18,11 @@
  * */
 class Container : public Clickable {
     public:
+        Container() = default;
         Container(size_t nrows, size_t ncols, const std::string& name);
 
         void DrawSelf(sf::RenderWindow& win);
-        bool OnClick(const sf::Vector2i& pos) override;
+        bool OnClick(const sf::Vector2i& pos, bool left_click) override;
 
         inline const sf::Vector2f& GetPosition() { return m_position; }
         void SetPosition(const sf::Vector2f& pos);

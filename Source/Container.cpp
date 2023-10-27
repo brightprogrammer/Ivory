@@ -1,6 +1,8 @@
+#include <cassert>
+
 #include <Container.hpp>
 #include <GameConfig.hpp>
-#include <cassert>
+#include <Game.hpp>
 
 /**
  * Create a new container.
@@ -76,12 +78,14 @@ void Container::DrawSelf(sf::RenderWindow& win) {
     }
 }
 
-bool Container::OnClick(const sf::Vector2i& pos) {
-    if(!DispatchEventToChildren(pos)) {
-        std::cout << m_title_text.getString().toAnsiString() << " was clicked!!" << std::endl;
+bool Container::OnClick(const sf::Vector2i& pos, bool left_click) {
+    if(!DispatchEventToChildren(pos, left_click)) {
+        const ItemInfo& item = Game::item_config.GetRandomItem();
+        std::cout << "Setting item " << item.name << " at a random place" << std::endl;
+        m_compartments[rand()%m_compartments.size()].SetItem(item);
     }
 
-    return false;
+    return true;
 }
 
 void Container::SetPosition(const sf::Vector2f& pos) {

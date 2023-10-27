@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 
 #include <SFML/Graphics.hpp>
 
@@ -9,8 +10,10 @@
 #include <Colors.hpp>
 #include <Ui/Clickable.hpp>
 
+#include <Game.hpp>
+
 int main() {
-    GameConfig::Initialize();
+    Game::Initialize();
 
     sf::RenderWindow window(sf::VideoMode(GameConfig::GetWindowWidth(), GameConfig::GetWindowHeight()), "OutScal Assignment - Ivory");
     window.setVerticalSyncEnabled(true);
@@ -30,10 +33,11 @@ int main() {
                 }
                 case sf::Event::EventType::MouseButtonPressed : {
                     sf::Vector2i pos = {wevent.mouseButton.x, wevent.mouseButton.y};
+                    bool left_click = wevent.mouseButton.button == sf::Mouse::Left;
                     if(inventory.IsClicked(pos)) {
-                        inventory.OnClick(pos);
+                        inventory.OnClick(pos, left_click);
                     } else if(equipped.IsClicked(pos)) {
-                        equipped.OnClick(pos);
+                        equipped.OnClick(pos, left_click);
                     }
                 }
                 default: break;
