@@ -31,7 +31,7 @@ Compartment::Compartment() {
  * */
 void Compartment::DrawSelf(sf::RenderWindow& win) {
     win.draw(m_item_bg);
-    win.draw(m_item);
+    if(m_item.GetQuantity()) m_item.DrawSelf(win);
 }
 
 /**
@@ -49,12 +49,8 @@ bool Compartment::OnClick(const sf::Vector2i &pos, bool left_click) {
 
 void Compartment::SetItem(const ItemInfo &info) {
     if(info.name.length()) {
-        sf::Texture* tex = new sf::Texture;
-        if(!tex->loadFromFile(IV_ITEM_ICONS_PATH + Game::item_config.GetLoadPath() + info.name)) {
-            std::cout << "[ERR] Failed to load texture \"" << info.name << "\"" << std::endl;
-            return;
-        }
-        m_item.setTexture(*tex);
-        m_item.setPosition(m_item_bg.getPosition());
+        m_item.LoadItem(info);
+        m_item.SetPosition(m_item_bg.getPosition());
+        m_item.SetQuantity(rand()%30);
     }
 }

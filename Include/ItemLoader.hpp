@@ -1,9 +1,13 @@
 #ifndef ITEMCONFIG_H_
 #define ITEMCONFIG_H_
 
-#include "GameStaticSettings.hpp"
 #include <string>
 #include <vector>
+#include <unordered_map>
+
+#include <SFML/Graphics.hpp>
+
+#include "GameStaticSettings.hpp"
 
 enum class ItemType {
     Unknown,
@@ -39,13 +43,13 @@ struct ItemInfo {
 };
 
 /**
- * ItemConfig parses the config file for loading
+ * ItemLoader parses the config file for loading
  * icons and other information.
  * */
-class ItemConfig {
+class ItemLoader {
     public:
-        ItemConfig() = default;
-        ItemConfig(const std::string& path) { LoadFromFile(path); }
+        ItemLoader() = default;
+        ItemLoader(const std::string& path) { LoadFromFile(path); }
 
         void LoadFromFile(const std::string& path);
 

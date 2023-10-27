@@ -2,8 +2,10 @@
 #define IVORY_COMPARTMENT_HPP
 
 #include <SFML/Graphics.hpp>
+
 #include <Ui/Clickable.hpp>
-#include <ItemConfig.hpp>
+#include <ItemLoader.hpp>
+#include <Item.hpp>
 
 /**
  * Compartments are where our objects will be placed.
@@ -36,10 +38,11 @@ class Compartment : public Clickable {
             top = pos.y;
 
             m_item_bg.setPosition(pos);
+            m_item.SetPosition(pos);
         }
     private:
         sf::Sprite m_item_bg; /* All compartments have a different sprite. */
-        sf::Sprite m_item;
+        Item m_item;
 };
 
 #endif // IVORY_COMPARTMENT_HPP

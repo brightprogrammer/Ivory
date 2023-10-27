@@ -80,7 +80,7 @@ void Container::DrawSelf(sf::RenderWindow& win) {
 
 bool Container::OnClick(const sf::Vector2i& pos, bool left_click) {
     if(!DispatchEventToChildren(pos, left_click)) {
-        const ItemInfo& item = Game::item_config.GetRandomItem();
+        const ItemInfo& item = Game::item_loader.GetRandomItem();
         std::cout << "Setting item " << item.name << " at a random place" << std::endl;
         m_compartments[rand()%m_compartments.size()].SetItem(item);
     }

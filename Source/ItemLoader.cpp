@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 
-#include <ItemConfig.hpp>
+#include <ItemLoader.hpp>
 
 std::string ExtractValue(const std::string& key, const std::string& line);
 ItemType GetItemTypeFromString(const std::string& typestr);
@@ -10,7 +10,7 @@ ItemRarity GetItemRarityFromSTring(const std::string& typestr);
 /**
  * Parse and load item config.
  * */
-void ItemConfig::LoadFromFile(const std::string& path) {
+void ItemLoader::LoadFromFile(const std::string& path) {
     std::cout << "Loading Item Config from " << path << std::endl;
 
     std::fstream file(path, std::ios::in);
@@ -51,6 +51,7 @@ void ItemConfig::LoadFromFile(const std::string& path) {
                 return;
             }
             parsing_item = false;
+
             m_items.push_back(item);
         } else if(line.find(LOADPATH) != LINE_END) {
             if(parsing_item) {
